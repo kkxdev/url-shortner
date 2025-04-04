@@ -3,146 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL Shortener Pro</title>
-    <!-- Bootstrap CSS -->
+    <title>URL Shortener</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        .brand-gradient {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        :root {
+            --primary: #3B82F6;
+            --primary-dark: #2563EB;
+            --success: #16A34A;
+            --success-light: #D1FAE5;
+            --gray-100: #F3F4F6;
+            --gray-900: #111827;
         }
-        .url-card {
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        .form-control {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            padding: 1.25rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: white;
+            color: var(--gray-900);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn-primary {
+            padding: 1rem 2rem;
+            font-weight: 600;
             transition: transform 0.2s;
+            border-radius: 0.5rem;
         }
-        .url-card:hover {
-            transform: translateY(-5px);
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .card {
+            border: none;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-success {
+            border-radius: 0.75rem;
+            background: var(--success-light);
+            color: var(--success);
+            border: 1px solid rgba(22, 163, 74, 0.3);
+        }
+
+        .alert-success .btn-close {
+            color: var(--success);
+            opacity: 0.7;
+        }
+
+        .alert-success .btn-close:hover {
+            opacity: 1;
+        }
+
+        .copy-btn {
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+        }
+
+        .copy-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .success-input {
+            background: white;
+            color: var(--gray-900);
+            font-family: monospace;
+        }
+
+        .success-copy-btn {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .success-copy-btn:hover {
+            background: #15803d;
+        }
+
+        .illustration {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 992px) {
+            .hero-section {
+                padding: 4rem 0;
+                text-align: center;
+            }
+
+            .illustration {
+                display: none;
+            }
         }
     </style>
 </head>
-<body>
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg brand-gradient shadow-sm">
-    <div class="container">
-        <a class="navbar-brand text-white fw-bold" href="#">
-            <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='white' viewBox='0 0 24 24'><path d='M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 22c-1.024 0-2.04-.155-3.025-.445l-1.779-1.779c-1.882 1.206-4.223 1.935-6.726 1.935-5.523 0-10-4.477-10-10s4.477-10 10-10 10 4.477 10 10c0 2.458-1.06 4.766-2.852 6.524l-2.955-2.955c-.19-.19-.445-.298-.72-.298h-5.5c-.552 0-1 .448-1 1s.448 1 1 1h5.5l2.955 2.955c1.356 1.356 3.26 2.148 5.271 2.148 5.523 0 10-4.477 10-10s-4.477-10-10-10z'/></svg>" alt="">
-            URL Shortener
-        </a>
-    </div>
-</nav>
-
+<body class="bg-gray-100">
 <!-- Hero Section -->
-<section class="py-5 bg-light">
+<section class="hero-section">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <div class="card url-card shadow border-0">
-                    <div class="card-body p-4">
-                        <h2 class="text-center mb-4 fw-bold">Shorten Your Links</h2>
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-6 order-2 order-lg-1">
+                <h1 class="display-5 text-white fw-bold mb-4">
+                    Shorten your links<br>with confidence
+                </h1>
+                <p class="text-white-75 lead mb-5">
+                    Free, fast, and reliable URL shortening service
+                </p>
+
+                <div class="card">
+                    <div class="card-body">
                         <form action="{{ route('shorten') }}" method="POST">
                             @csrf
-                            <div class="input-group mb-3">
+                            <div class="input-group input-group-lg mb-3">
                                 <input
                                     type="text"
                                     name="original_url"
-                                    class="form-control form-control-lg rounded-pill"
+                                    class="form-control rounded-start"
                                     placeholder="Paste your long URL here..."
                                     required
                                 >
                                 <button
                                     type="submit"
-                                    class="btn btn-primary btn-lg rounded-pill px-4"
+                                    class="btn btn-primary rounded-end"
                                 >
-                                    Shorten
+                                    Shorten <i class="bi bi-arrow-right-short ms-2"></i>
                                 </button>
                             </div>
                         </form>
 
                         @if(session('short_url'))
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <div class="alert alert-success mb-0" role="alert">
                                 <div class="d-flex align-items-center">
-                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-                                    <div>
-                                        <strong>Success!</strong> Your short URL:
-                                        <div class="input-group mt-2">
+                                    <div class="me-3">
+                                        <i class="bi bi-check-circle-fill fs-3 text-success"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <strong class="text-success">Success!</strong>
+                                        <span class="text-dark">Your short URL:</span>
+                                        <div class="input-group mt-3">
                                             <input
                                                 type="text"
                                                 readonly
                                                 value="{{ session('short_url') }}"
-                                                class="form-short-url form-control"
+                                                class="form-control rounded-pill success-input"
                                             >
                                             <button
                                                 type="button"
-                                                class="btn btn-outline-success copy-btn"
+                                                class="btn btn-success rounded-pill ms-2 copy-btn success-copy-btn"
                                                 onclick="copyToClipboard('{{ session('short_url') }}')"
                                             >
-                                                Copy
+                                                <i class="bi bi-clipboard me-2"></i> Copy
                                             </button>
                                         </div>
                                     </div>
+                                    <button type="button" class="btn-close ms-3" data-bs-dismiss="alert"></button>
                                 </div>
                             </div>
                         @endif
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
 
-<!-- Features Section -->
-<section class="py-5">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-md-4 mb-4">
-                <div class="feature-icon bg-primary bg-opacity-10 text-primary rounded-circle mb-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-lightning-charge" viewBox="0 0 16 16">
-                        <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
-                    </svg>
-                </div>
-                <h3 class="h5 fw-bold">Instant Redirects</h3>
-                <p class="text-muted">Lightning-fast URL redirection</p>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="feature-icon bg-success bg-opacity-10 text-success rounded-circle mb-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L10.03 8.27a.5.5 0 0 1-.037-.738L10 3.5zm-2 0l-3.613 4.417a.5.5 0 0 1-.74.037L3.03 8.27a.5.5 0 0 1-.037-.738L3 3.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9L6.387 8.683a.5.5 0 0 1-.74-.037L5.03 8.27a.5.5 0 0 1-.037-.738L5 3.5H2a.5.5 0 0 1-.5-.5v-4A.5.5 0 0 1 2 0h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9L8.387 8.683a.5.5 0 0 1-.74-.037L7.03 8.27a.5.5 0 0 1-.037-.738L7 3.5h-4a.5.5 0 0 1-.5-.5v-4A.5.5 0 0 1 3 0h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9L10 3.5z"/>
-                    </svg>
-                </div>
-                <h3 class="h5 fw-bold">Analytics</h3>
-                <p class="text-muted">Track link performance</p>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="feature-icon bg-warning bg-opacity-10 text-warning rounded-circle mb-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-globe" viewBox="0 0 16 16">
-                        <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM6.5 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0z"/>
-                    </svg>
-                </div>
-                <h3 class="h5 fw-bold">Global Reach</h3>
-                <p class="text-muted">Optimized for worldwide access</p>
+            <div class="col-lg-6 order-1 order-lg-2">
+                <img src="https://cdn.jsdelivr.net/gh/Loopple/loopple-public-assets@main/riva-dashboard-tailwind/img/illustrations/undraw_url_shortener.svg"
+                     alt="URL Shortener Illustration"
+                     class="img-fluid illustration">
             </div>
         </div>
     </div>
 </section>
 
 <!-- Footer -->
-<footer class="bg-dark text-white py-4">
-    <div class="container text-center">
-        <p class="mb-0">&copy; 2024 URL Shortener Pro. All rights reserved.</p>
+<footer class="bg-white py-4 mt-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <p class="mb-0 text-muted">&copy; 2024 URL Shortener. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <a href="#" class="text-muted me-3">Privacy Policy</a>
+                <a href="#" class="text-muted">Terms of Service</a>
+            </div>
+        </div>
     </div>
 </footer>
 
-<!-- Bootstrap JS + Custom Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function copyToClipboard(text) {
-        navigator.clipboard.writeText(text)
-            .then(() => {
-                const originalText = document.querySelector('.copy-btn').innerText;
-                document.querySelector('.copy-btn').innerText = 'Copied!';
-                setTimeout(() => {
-                    document.querySelector('.copy-btn').innerText = originalText;
-                }, 2000);
-            });
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.querySelector('.copy-btn');
+            btn.innerHTML = '<i class="bi bi-check2-all me-2"></i> Copied!';
+            btn.classList.add('btn-success');
+
+            setTimeout(() => {
+                btn.innerHTML = '<i class="bi bi-clipboard me-2"></i> Copy';
+                btn.classList.remove('btn-success');
+            }, 2000);
+        });
     }
 </script>
 </body>
