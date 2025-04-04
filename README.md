@@ -35,7 +35,7 @@ A simple, fast, and modern URL shortening service built with Laravel. Perfect fo
 ### Quick Start
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/url-shortener.git
+git clone https://github.com/kkxdev/url-shortner.git
 cd url-shortener
 
 # Install dependencies
