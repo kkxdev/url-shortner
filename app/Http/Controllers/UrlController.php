@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\ValidUrlRule;
 use Illuminate\Http\Request;
 use App\Models\Url;
 
@@ -15,7 +16,7 @@ class UrlController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'original_url' => 'required|url'
+            'original_url' => ['required', 'url', 'max:2048', new ValidUrlRule]
         ]);
 
         $url = Url::create([
