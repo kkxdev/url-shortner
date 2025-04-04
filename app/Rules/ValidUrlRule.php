@@ -51,10 +51,10 @@ class ValidUrlRule implements ValidationRule
         }
 
         // Optional: Validate path format
-        if (isset($urlParts['path']) && !preg_match('/^\/[a-zA-Z0-9\-._~!$&\'()*+,;=:@%]*$/', $urlParts['path'])) {
-            $fail('The :attribute contains invalid characters in the path.')->translate();
-            return;
-        }
+//        if (isset($urlParts['path']) && !preg_match('/^\/[a-zA-Z0-9\-._~!$&\'()*+,;=:@%]*$/', $urlParts['path'])) {
+//            $fail('The :attribute contains invalid characters in the path.')->translate();
+//            return;
+//        }
     }
 
     /**
